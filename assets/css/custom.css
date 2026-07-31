@@ -1,0 +1,81 @@
+/* Ported 1:1 from src/app/globals.css */
+
+:root {
+  --sidebar-bg: #1B2A4E;
+  --sidebar-active: #2563EB;
+  --sidebar-text: #CBD5E1;
+  --sidebar-text-hi: #FFFFFF;
+  --sidebar-section: #64748B;
+  --sidebar-border: #2D3B5E;
+  --bg-app: #F9FAFB;
+  --bg-card: #FFFFFF;
+  --border: #E5E7EB;
+  --border-strong: #D1D5DB;
+  --text-primary: #111827;
+  --text-secondary: #6B7280;
+  --text-muted: #9CA3AF;
+  --primary: #2563EB;
+  --primary-hover: #1D4ED8;
+}
+
+body {
+  color: var(--text-primary);
+  background: var(--bg-app);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
+
+/* ── App shell helpers (behaviour that was React state in the original) ── */
+
+/* Sidebar collapse: body.sidebar-collapsed toggles widths/margins that in
+   the React app were driven by the `collapsed` useState in DashboardLayout. */
+.app-sidebar { width: 240px; transition: width .3s; }
+body.sidebar-collapsed .app-sidebar { width: 64px; }
+
+.app-topbar { left: 240px; transition: left .3s; }
+body.sidebar-collapsed .app-topbar { left: 240px; }
+@media (min-width: 1024px) {
+  .app-topbar { left: 240px; }
+  body.sidebar-collapsed .app-topbar { left: 64px; }
+}
+@media (max-width: 1023px) {
+  .app-topbar { left: 0; }
+}
+
+.app-main { transition: margin-left .3s; }
+@media (min-width: 1024px) {
+  .app-main { margin-left: 240px; }
+  body.sidebar-collapsed .app-main { margin-left: 64px; }
+}
+
+.sidebar-label, .sidebar-section-label, .sidebar-chevron, .sidebar-brand-text, .sidebar-footer-full {
+  transition: opacity .15s;
+}
+body.sidebar-collapsed .sidebar-label,
+body.sidebar-collapsed .sidebar-section-label,
+body.sidebar-collapsed .sidebar-chevron,
+body.sidebar-collapsed .sidebar-brand-text,
+body.sidebar-collapsed .sidebar-submenu,
+body.sidebar-collapsed .sidebar-footer-full {
+  display: none !important;
+}
+body.sidebar-collapsed .sidebar-footer-collapsed { display: block !important; }
+.sidebar-footer-collapsed { display: none; }
+
+/* Pending-approvals badge shown ONLY on the collapsed icon-only sidebar —
+   the normal in-line badge next to the label already covers expanded mode
+   (it's a .sidebar-label itself, so the rule above already hides it when
+   collapsed). */
+.sidebar-collapsed-badge { display: none; }
+body.sidebar-collapsed .sidebar-collapsed-badge { display: flex; }
+
+/* Mobile sidebar drawer */
+.app-sidebar { position: fixed; left: 0; top: 0; z-index: 40; height: 100vh; }
+@media (max-width: 1023px) {
+  .app-sidebar { transform: translateX(-100%); transition: transform .3s; }
+  body.mobile-menu-open .app-sidebar { transform: translateX(0); }
+}
